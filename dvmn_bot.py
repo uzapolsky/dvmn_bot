@@ -35,20 +35,19 @@ def main():
 
     while True:
         try:
-            response = requests.get(url, headers=headers, params=payload, timeout=5)
+            response = requests.get(url, headers=headers, params=payload, timeout=60)
         except ReadTimeout:
-            print('Время вышло')
+            continue
         except ConnectionError:
-            print('Подключение к интернету нестабильно')
-            time.sleep(1)
-        else:
-            answer = response.json()
-            if answer['status'] == 'timeout':
-                payload['timestamp'] = answer['timestamp_to_request']
-            if answer['status'] == 'found':
-                send_message(answer, bot, chat_id)
-            
-                print(answer)
+            time.sleep(30)
+            continue
+
+        answer = response.json()
+        if answer['status'] == 'timeout':
+            payload['timestamp'] = answer['timestamp_to_request']
+        if answer['status'] == 'found':
+            send_message(answer, bot, chat_id)
+
 
 if __name__ == '__main__':
     main()
