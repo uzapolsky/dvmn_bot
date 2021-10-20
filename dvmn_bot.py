@@ -15,8 +15,8 @@ def send_message(answer, bot, chat_id):
         else:
             msg += 'Можно приступать к следующему уроку\n'
         msg += f'Ссылка на урок: {attempt["lesson_url"]}'
-
-    bot.send_message(text=msg, chat_id=chat_id)
+        
+        bot.send_message(text=msg, chat_id=chat_id)
 
 
 def main():
@@ -36,6 +36,10 @@ def main():
     while True:
         try:
             response = requests.get(url, headers=headers, params=payload, timeout=60)
+            response.raise_for_status()
+            answer = response.json()
+            if 'error' in answer:
+                raise requests.exceptions.HTTPError(answer['error'])
         except ReadTimeout:
             continue
         except ConnectionError:
@@ -46,6 +50,7 @@ def main():
         if answer['status'] == 'timeout':
             payload['timestamp'] = answer['timestamp_to_request']
         if answer['status'] == 'found':
+            payload['timestamp'] = answer['last_attempt_timestamp']
             send_message(answer, bot, chat_id)
 
 
