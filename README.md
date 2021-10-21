@@ -22,7 +22,7 @@ pip install -r requirements.txt
 Чтобы запустить бота, необходимо выполнить команду:
 
 ```env
-python3 bot.py
+python3 dvmn_bot.py
 ```
 
 ### Цель проекта
