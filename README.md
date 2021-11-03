@@ -10,6 +10,7 @@
 DVMN_TOKEN=
 BOT_TOKEN=
 CHAT_ID=
+BOT_LOG_TOKEN=
 ```
 
 Python3 должен быть уже установлен.
