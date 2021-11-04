@@ -55,24 +55,21 @@ def main():
 
     while True:
         try:
-            try:
-                response = requests.get(url, headers=headers, params=payload, timeout=60)
-                response.raise_for_status()
-            except ReadTimeout:
-                continue
-            except ConnectionError:
-                logger.warning('Проблемы с интернетом')
-                time.sleep(30)
-                continue
+            response = requests.get(url, headers=headers, params=payload, timeout=60)
+            response.raise_for_status()
+        except ReadTimeout:
+            continue
+        except ConnectionError:
+            logger.warning('Проблемы с интернетом')
+            time.sleep(30)
+            continue
 
-            answer = response.json()
-            if answer['status'] == 'timeout':
-                payload['timestamp'] = answer['timestamp_to_request']
-            if answer['status'] == 'found':
-                payload['timestamp'] = answer['last_attempt_timestamp']
-                send_message(answer, bot, chat_id)
-        except telegram.error.TelegramError:
-            logger.exception('Проблема с телеграммом')
+        answer = response.json()
+        if answer['status'] == 'timeout':
+            payload['timestamp'] = answer['timestamp_to_request']
+        if answer['status'] == 'found':
+            payload['timestamp'] = answer['last_attempt_timestamp']
+            send_message(answer, bot, chat_id)
 
 
 if __name__ == '__main__':
