@@ -25,6 +25,10 @@ pip install -r requirements.txt
 ```env
 python3 dvmn_bot.py
 ```
+### Запуск с помощью Docker
+
+docker build -t dvmn_bot .
+docker run --env-file ./.env dvmn_bot
 
 ### Цель проекта
 
