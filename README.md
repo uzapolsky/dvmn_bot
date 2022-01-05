@@ -27,8 +27,10 @@ python3 dvmn_bot.py
 ```
 ### Запуск с помощью Docker
 
+```env
 docker build -t dvmn_bot .
 docker run --env-file ./.env dvmn_bot
+```
 
 ### Цель проекта
 
